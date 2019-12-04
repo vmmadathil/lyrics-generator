@@ -9,8 +9,10 @@ bigdf = pd.DataFrame(columns  = ['title', 'lyrics', 'album'])
 counter = 1
 
 #opening all the files in the directory
-for filename in glob.glob('*.json'):
-    data = json.load(filename)
+for filename in glob.glob("*.json"):
+    print("Currently processing " + filename)
+    with open(filename, 'r') as f:
+        data = json.load(f)
 
     data = data['songs']
 
@@ -20,6 +22,6 @@ for filename in glob.glob('*.json'):
     bigdf = pd.concat([bigdf, df])
 
     print('Done with ' + str(counter) + ' lyrics files!')
-    counter =+ 1
+    counter = counter + 1
 
 bigdf.to_csv('the-weeknd-lyrics-complete.csv')
