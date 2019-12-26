@@ -9,6 +9,8 @@ lyricsraw = pd.read_csv('the-weeknd-lyrics-complete.csv')
 lyricsraw = lyricsraw.loc[lyricsraw['album'].notnull()]
 
 #removing things in brackets
-lyricsraw['lyrics'] = lyricsraw['lyrics'].str.replace(r'\[[.*]\]','')
+lyricsraw['lyrics'] = lyricsraw['lyrics'].str.replace(r"(\s*\[.*?\]\s*)", " ").str.strip()
+
+print("finished processing!")
 
 lyricsraw.to_csv('processed-weeknd-lyrics.csv')
