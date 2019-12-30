@@ -13,4 +13,17 @@ lyricsraw['lyrics'] = lyricsraw['lyrics'].str.replace(r"(\s*\[.*?\]\s*)", " ").s
 
 print("finished processing!")
 
-lyricsraw.to_csv('processed-weeknd-lyrics.csv')
+#lyricsraw.to_csv('processed-weeknd-lyrics.csv')
+
+#now converting the df to a concatenated .txt file
+
+print("converting to .txt file")
+
+lyricsString = lyricsraw['lyrics'].str.cat()
+
+print(len(lyricsString))
+'''
+txtfile = open('WeekndLyrics.txt', 'w', encoding='utf-8')
+txtfile.write(lyricsString)
+txtfile.close()
+'''
