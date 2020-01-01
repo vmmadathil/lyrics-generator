@@ -21,9 +21,6 @@ print("converting to .txt file")
 
 lyricsString = lyricsraw['lyrics'].str.cat()
 
-print(len(lyricsString))
-'''
 txtfile = open('WeekndLyrics.txt', 'w', encoding='utf-8')
 txtfile.write(lyricsString)
 txtfile.close()
-'''

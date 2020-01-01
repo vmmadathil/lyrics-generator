@@ -1,0 +1,1 @@
+#this is script the trains the neural network
