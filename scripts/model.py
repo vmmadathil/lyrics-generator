@@ -28,17 +28,17 @@ with io.open(path) as f:
 #making text all lowercase
 text = text.lower()
 
-# create mapping of unique chars to integers
+#create mapping of unique chars to integers
 chars = sorted(list(set(text)))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 
-# summarize the loaded data
+#summarize the loaded data
 n_chars = len(text)
 n_vocab = len(chars)
 print('Corpus Length:', n_chars)
 print("Total Vocab: ", n_vocab)
 
-# prepare the dataset of input to output pairs encoded as integers
+#prepare the dataset of input to output pairs encoded as integers
 seq_length = 100 #roughly the number of character in every line(?)
 dataX = []
 dataY = []
@@ -51,25 +51,25 @@ n_patterns = len(dataX)
 print ("Total Patterns: ", n_patterns)
 
 
-# reshape X to be [samples, time steps, features]
+#reshape X to be [samples, time steps, features]
 X = np.reshape(dataX, (n_patterns, seq_length, 1))
-# normalize
+#normalize
 X = X / float(n_vocab)
-# one hot encode the output variable
+#one hot encode the output variable
 y = np_utils.to_categorical(dataY)
 
 
-# define the LSTM model
+#define the LSTM model
 model = Sequential()
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
 model.add(Dropout(0.2))
 model.add(Dense(y.shape[1], activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 
-# define the checkpoint
+#define the checkpoint and saving it outside
 filepath="weights-improvement-{epoch:02d}-{loss:.4f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
 callbacks_list = [checkpoint]
 
 #training the model   
-model.fit(X, y, epochs=20, batch_size=128, callbacks=callbacks_list)
+model.fit(X, y, epochs=1, batch_size=128, callbacks=callbacks_list)
