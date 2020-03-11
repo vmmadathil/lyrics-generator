@@ -52,8 +52,8 @@ model.compile(loss='categorical_crossentropy', optimizer='adam')
 # pick a random seed
 start = numpy.random.randint(0, len(dataX)-1)
 pattern = dataX[start]
-print "Seed:"
-print "\"", ''.join([int_to_char[value] for value in pattern]), "\""
+print("Seed: ")
+print("\"", ''.join([int_to_char[value] for value in pattern]), "\"")
 # generate characters
 for i in range(1000):
 	x = numpy.reshape(pattern, (1, len(pattern), 1))
@@ -65,4 +65,4 @@ for i in range(1000):
 	sys.stdout.write(result)
 	pattern.append(index)
 	pattern = pattern[1:len(pattern)]
-print "\nDone."
+print("\nDone.")
