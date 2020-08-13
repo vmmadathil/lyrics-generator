@@ -4,8 +4,8 @@ import pandas as pd
 import re
 from unidecode import unidecode
 
-quote_page = 'http://metrolyrics.com/{}-lyrics-drake.html'
-filename = 'drake-songs.csv'
+quote_page = 'http://metrolyrics.com/{}-lyrics-rihanna.html'
+filename = 'songs_names.csv'
 songs = pd.read_csv(filename)
 
 for index, row in songs.iterrows():
