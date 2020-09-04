@@ -28,8 +28,10 @@ def removeFeatures(text):
         else:
             confirmedVerses.append('[' + verse)
     
+    print(confirmedVerses[0])
+
     #calling function to remove verse tags
-    removeTags(confirmedVerses)
+    #removeTags(confirmedVerses)
 
 
 '''
@@ -37,13 +39,19 @@ Function: Remove tags
 '''
 def removeTags(verses):
     
-    print(type(verses[1]))
+    #print(type(verses[1]))
     print((verses[1]))
+
+    count = 0
     #looping through all the verses
-    #for verse in verses:
-        #verse, *_ = verse.split(']')
+    for verse in verses:
+        count = count + 1
+        verse, *_ = verse.split(']')
         
-        #print(verse)
+        print(verse)
+        
+        if count == 10:
+            break
 
 
 

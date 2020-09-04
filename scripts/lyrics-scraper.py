@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-#fecthing the API key
+#fetching the API key
 API_KEY = os.getenv("API_KEY")
 
 #creating the genius client
