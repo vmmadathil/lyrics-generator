@@ -1,5 +1,6 @@
 #this script will clean up the lyrics
 import re
+import numpy as np
 
 '''
 TO DO:
@@ -13,9 +14,10 @@ TO DO:
 '''
 Function: Remove features
 This function will remove the featured verses and keep only the verses for the artist. In songs with multple artists, 
-the verse tags will contain a colon followed by the artist name. If the verse tag doesn't have a colon, it is not a song with a feature
+the verse tags will contain a colon followed by the artist name. If the verse tag doesn't have a colon, it is not a song with a feature.
+Once that is complete, all the lyrics are joined and verse tags and ad libs are removed 
 '''
-def removeFeatures(text, artist_name):
+def removeFeaturesAndTags(text, artist_name):
     #creating an array of lyrics chunks
     verses = text.split('[')
 
@@ -25,59 +27,75 @@ def removeFeatures(text, artist_name):
     for verse in verses:
 
         if(":" in verse):
-            if('artist_name' in verse):
+            if(artist_name in verse):
                 verse = '[' + verse
                 confirmedVerses.append(verse)
         else:
             verse = '[' + verse
             confirmedVerses.append(verse)
     
-    print(confirmedVerses[0])
+    #combining all the verses into one large string
+    lyrics = " ".join(confirmedVerses)
 
+    print('removing tags and ad-libs')
+    #removing tags [] and ad libs ()
+    lyrics = re.sub("[\(\[].*?[\)\]]", "", lyrics)
 
-    '''
-    #for loop to loop through all the verses 
-    for verse in verses:
-        print(verse)
-        #seeing if the verse has a colon -- if it does, see if the verse is by The Weeknd
-        if ((':' in verse) and ('The Weeknd' in verse)):
-            confirmedVerses.append('[' + verse)
-        else:
-            confirmedVerses.append('[' + verse)
-
-        break
-
-    print(confirmedVerses[0])
-    '''
-
-    #calling function to remove verse tags
-    #removeTags(confirmedVerses)
-
-
-'''
-Function: Remove tags
-'''
-def removeTags(verses):
-    
-    #print(type(verses[1]))
-    print((verses[1]))
-
-    count = 0
-    #looping through all the verses
-    for verse in verses:
-        count = count + 1
-        verse, *_ = verse.split(']')
-        
-        print(verse)
-        
-        if count == 10:
-            break
-
+    #calling function to replace words
+    replaceWords(lyrics)
 
 
 '''
 Function: Replace words
 '''
+def replaceWords(lyrics):
+    
+    lyrics = lyrics.replace("in' ", "ing ")
+    lyrics = lyrics.replace('*', '')
+    lyrics = lyrics.replace('(', '')
+    lyrics = lyrics.replace(')', '')
+    lyrics = lyrics.replace('=', '')
+    lyrics = lyrics.replace(';', ',')
+    lyrics = lyrics.replace('*', '')
+    lyrics = lyrics.replace(']', '')
+    lyrics = lyrics.replace('‘', "'")
+    lyrics = lyrics.replace('‘', "’")
+    lyrics = lyrics.replace('…', "...")
+    lyrics = lyrics.replace('\n\n', "\n")
+
+    lyrics = lyrics.replace('\xa0', "'")
+    lyrics = lyrics.replace('\u2005', "'")
+    lyrics = lyrics.replace('\u200e', "'")
+    lyrics = lyrics.replace('\u205f', "'")
+    lyrics = lyrics.replace('\ufeff', "'")
+    
+
+    lyrics = lyrics.lower()
+    lyrics = lyrics.replace(' i ', ' I ')
+    lyrics = lyrics.replace(" i'", " I'")
+
+    lyrics = re.sub('\ntrodde.*?nej','',lyrics, flags=re.DOTALL)
+    lyrics = re.sub('\nquand.*?17 ans','',lyrics, flags=re.DOTALL)
+    lyrics = re.sub('\nseneler.*?günüm','',lyrics, flags=re.DOTALL)
+    lyrics = re.sub('\nyalnız.*?yorgunum','',lyrics, flags=re.DOTALL)
+    lyrics = re.sub('\nlaisse.*?jour-là\nje ne pleurerai pas\nje ne pleurerai pas','',lyrics, flags=re.DOTALL)
+    lyrics = re.sub('\nmmm.*?...','',lyrics, flags=re.DOTALL)
+
+    vocab = sorted(set(lyrics))
+    print ('There are {} unique characters'.format(len(vocab)))
+    
+
+    file_path = '../data/processed/lyrics.txt'
+
+    with open(file_path, 'w', encoding="utf-8") as f:
+        f.write(lyrics)
+
+    lyrics = lyrics.strip()
+    
+    print("finished writing lyrics")
+
+
+
 
 '''
 Function: Remove Ad-libs
@@ -93,7 +111,7 @@ def main():
     print('read in lyrics, removing featured artists')
 
     artist_name = 'The Weeknd'
-    removeFeatures(text, artist_name)
+    removeFeaturesAndTags(text, artist_name)
 
 
 
