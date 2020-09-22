@@ -28,8 +28,8 @@ artists = ['Frank Ocean', 'Bryson Tiller', 'Miguel', 'Usher', 'Tory Lanez', 'Tre
 for name in artists:
     try:
         artist = genius.search_artist(name, max_songs = 15)
-        print('Saving the songs for {}').format(name)
+        print('Saving the songs for {}'.format(name))
         artist.save_lyrics()
     except:
-        print("failed to save lyrics for {}").format(name) 
+        print("failed to save lyrics for {}".format(name))
 
