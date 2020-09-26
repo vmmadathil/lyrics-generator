@@ -22,12 +22,12 @@ except:
     print('failed to connect!')
 
 #a list of artists I'm interested in
-artists = ['Frank Ocean', 'Bryson Tiller', 'Miguel', 'Usher', 'Tory Lanez', 'Trey Songz', 'dvsn', 'Rihanna', 'James Blake']
+artists = ['Frank Ocean', 'Bryson Tiller', 'Miguel', 'Usher', 'Tory Lanez', 'Trey Songz', 'dvsn', 'Rihanna', 'James Blake', 'The Weeknd', '6lack', 'Usher', 'Beyonce', 'Summer Walker', 'SZA', 'Khalid', 'Masego']
 
 #iterate through all these artists, keep only their top 15 songs
 for name in artists:
     try:
-        artist = genius.search_artist(name, max_songs = 15)
+        artist = genius.search_artist(name)
         print('Saving the songs for {}'.format(name))
         artist.save_lyrics()
     except:
